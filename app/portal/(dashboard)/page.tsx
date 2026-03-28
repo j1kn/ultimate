@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { currentUser } from '@clerk/nextjs/server'
 import Link from 'next/link'
 import Label from '@/components/ui/Label'
 
@@ -31,14 +30,8 @@ function getGreeting(): string {
   return 'Good evening'
 }
 
-export default async function PortalDashboard() {
-  let firstName = 'there'
-  try {
-    const user = await currentUser()
-    firstName = user?.firstName ?? 'there'
-  } catch {
-    // Clerk not configured — use default greeting
-  }
+export default function PortalDashboard() {
+  const firstName = 'there'
 
   return (
     <div>

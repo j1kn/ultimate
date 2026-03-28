@@ -1,17 +1,11 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
-// Protect portal routes but NOT the sign-in/sign-up pages
-const isProtectedPortalRoute = createRouteMatcher([
-  '/portal',
-  '/portal/bookings(.*)',
-  '/portal/documents(.*)',
-])
-
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedPortalRoute(req)) {
-    await auth.protect()
-  }
-})
+// Auth disabled — all routes are publicly accessible
+// TODO: Re-enable Clerk auth when ready by replacing this with clerkMiddleware
+export default function proxy(_req: NextRequest) {
+  return NextResponse.next()
+}
 
 export const config = {
   matcher: [

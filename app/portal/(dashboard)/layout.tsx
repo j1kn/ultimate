@@ -1,5 +1,3 @@
-import { auth } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -16,17 +14,9 @@ const portalNav = [
   { label: 'Documents', href: '/portal/documents', icon: '◱' },
 ]
 
-export default async function PortalLayout({ children }: { children: React.ReactNode }) {
-  try {
-    const { userId } = await auth()
-    if (!userId) {
-      redirect('/portal/sign-in')
-    }
-  } catch {
-    // Clerk not configured — allow access in development without keys
-    // In production, ensure NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is set
-  }
-
+// Auth disabled — portal is publicly viewable
+// TODO: Re-enable auth when Clerk keys are configured
+export default function PortalLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-pearl flex flex-col lg:flex-row pt-20">
       {/* Sidebar — desktop */}
