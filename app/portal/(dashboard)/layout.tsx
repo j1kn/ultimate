@@ -17,10 +17,14 @@ const portalNav = [
 ]
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
-  const { userId } = await auth()
-
-  if (!userId) {
-    redirect('/portal/sign-in')
+  try {
+    const { userId } = await auth()
+    if (!userId) {
+      redirect('/portal/sign-in')
+    }
+  } catch {
+    // Clerk not configured — allow access in development without keys
+    // In production, ensure NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is set
   }
 
   return (

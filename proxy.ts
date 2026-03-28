@@ -1,9 +1,14 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-const isPortalRoute = createRouteMatcher(['/portal(.*)'])
+// Protect portal routes but NOT the sign-in/sign-up pages
+const isProtectedPortalRoute = createRouteMatcher([
+  '/portal',
+  '/portal/bookings(.*)',
+  '/portal/documents(.*)',
+])
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isPortalRoute(req)) {
+  if (isProtectedPortalRoute(req)) {
     await auth.protect()
   }
 })

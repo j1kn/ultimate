@@ -32,8 +32,13 @@ function getGreeting(): string {
 }
 
 export default async function PortalDashboard() {
-  const user = await currentUser()
-  const firstName = user?.firstName ?? 'there'
+  let firstName = 'there'
+  try {
+    const user = await currentUser()
+    firstName = user?.firstName ?? 'there'
+  } catch {
+    // Clerk not configured — use default greeting
+  }
 
   return (
     <div>
